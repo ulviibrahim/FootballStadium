@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ReservationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Bookings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StadiumId" Type="Int32" Nullable="false" />
+    <Property Name="ContactId" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Time" Type="Time" Nullable="false" Precision="7" />
+    <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+    <Property Name="AdditionalServices" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
+    <NavigationProperty Name="Contacts" Relationship="Self.FK_Bookings_Contacts" FromRole="Bookings" ToRole="Contacts" />
+    <NavigationProperty Name="Stadiums" Relationship="Self.FK_Bookings_Stadiums" FromRole="Bookings" ToRole="Stadiums" />
+  </EntityType>
+  <EntityType Name="Contacts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_Contacts" FromRole="Contacts" ToRole="Bookings" />
+  </EntityType>
+  <EntityType Name="Rooms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MenCount" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Stadiums" Relationship="Self.FK_Stadiums_Rooms" FromRole="Rooms" ToRole="Stadiums" />
+  </EntityType>
+  <EntityType Name="Stadiums">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoomId" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_Stadiums" FromRole="Stadiums" ToRole="Bookings" />
+    <NavigationProperty Name="Rooms" Relationship="Self.FK_Stadiums_Rooms" FromRole="Stadiums" ToRole="Rooms" />
+    <Property Name="price" Type="Decimal" Precision="4" Scale="2" />
+  </EntityType>
+  <Association Name="FK_Bookings_Contacts">
+    <End Role="Contacts" Type="Self.Contacts" Multiplicity="1" />
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contacts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Bookings_Stadiums">
+    <End Role="Stadiums" Type="Self.Stadiums" Multiplicity="1" />
+    <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Stadiums">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Bookings">
+        <PropertyRef Name="StadiumId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Stadiums_Rooms">
+    <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
+    <End Role="Stadiums" Type="Self.Stadiums" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rooms">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Stadiums">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ReservationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Bookings" EntityType="Self.Bookings" />
+    <EntitySet Name="Contacts" EntityType="Self.Contacts" />
+    <EntitySet Name="Rooms" EntityType="Self.Rooms" />
+    <EntitySet Name="Stadiums" EntityType="Self.Stadiums" />
+    <AssociationSet Name="FK_Bookings_Contacts" Association="Self.FK_Bookings_Contacts">
+      <End Role="Contacts" EntitySet="Contacts" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Bookings_Stadiums" Association="Self.FK_Bookings_Stadiums">
+      <End Role="Stadiums" EntitySet="Stadiums" />
+      <End Role="Bookings" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Stadiums_Rooms" Association="Self.FK_Stadiums_Rooms">
+      <End Role="Rooms" EntitySet="Rooms" />
+      <End Role="Stadiums" EntitySet="Stadiums" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

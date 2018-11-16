@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4278503321754662a36334478235a031" Name="Diagram1">
+        <EntityTypeShape EntityType="ReservationModel.Bookings" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationModel.Contacts" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationModel.Rooms" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationModel.Stadiums" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="ReservationModel.FK_Bookings_Contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="ReservationModel.FK_Bookings_Stadiums" ManuallyRouted="false" />
+        <AssociationConnector Association="ReservationModel.FK_Stadiums_Rooms" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
