@@ -150,10 +150,9 @@ namespace ReservationFootballStadiums
         //Stadionlari elave etmek ucun metod.
        public void fillStadiums()
         {
-            
             CmbStadiums.Items.Clear();
 
-            Stadiums stad = db.Stadiums.FirstOrDefault(s => s.Name == CmbStadiums.Text);
+         Stadiums stad = db.Stadiums.FirstOrDefault(s => s.Name == CmbStadiums.Text);
             DateTime date = ClnCalendar.SelectedDate.Value;
             if (CmbHours.SelectedItem != null)
             {
@@ -266,8 +265,15 @@ namespace ReservationFootballStadiums
         {
             cmbSearchStadiums.Items.Clear();
 
+            CmbStadiums.Items.Clear();
+            Stadiums stadiumAll = new Stadiums
+            {
+                Id = 0,
+                Name = "-Hamısı-"
+            };
+            cmbSearchStadiums.Items.Add(stadiumAll);
             //Stadiums stad = db.Stadiums.FirstOrDefault(s => s.Name == cmbSearchStadiums.Text);
-            //DateTime date = dpSearch.SelectedDate.Value;
+
             //if (cmbSearchHours.SelectedItem != null)
             //{
             //    string hour = cmbSearchHours.SelectedItem.ToString();
@@ -278,23 +284,24 @@ namespace ReservationFootballStadiums
 
 
 
-            //    foreach (Stadiums stadium in db.Stadiums.Where(s => s.Bookings.Where(b => b.Date == date && b.Time == time).Count() == 0).ToList().OrderBy(n => n.Name))
-            //    {
-            //        cmbSearchStadiums.Items.Add(stadium.Name);
-
-            //    }
-            //}
+                //    foreach (Stadiums stadium in db.Stadiums.Where(s => s.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value && b.Time == time).Count() == 0).ToList().OrderBy(n => n.Name))
+                //    {
 
 
+                //    }
+                //}
 
 
 
 
-            foreach (Stadiums stadium in db.Stadiums.ToList().OrderBy(n => n.Name))
+
+
+                foreach (Stadiums stadium in db.Stadiums.ToList().OrderBy(n => n.Name))
                 {
                     cmbSearchStadiums.Items.Add(stadium);
 
                 }
+
             
         }
 
@@ -309,16 +316,17 @@ namespace ReservationFootballStadiums
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
+            
             DgBookings.Items.Clear();
 
+            //int stadiumId = 0;
 
-            int stadiumId = 0;
+            //if (!string.IsNullOrEmpty(cmbSearchStadiums.Text) && cmbSearchStadiums.Text != "-Hamısı-")
+            //{
+            //    stadiumId = db.Stadiums.FirstOrDefault(s => s.Name == cmbSearchStadiums.Text).Id;
+            //}
 
-            if (!string.IsNullOrEmpty(cmbSearchStadiums.Text))
-            {
-                stadiumId = db.Stadiums.FirstOrDefault(s => s.Name == cmbSearchStadiums.Text).Id;
 
-            }
             //string format = @"hh\:mm";
             //Bookings time = db.Bookings.FirstOrDefault();
 
@@ -332,17 +340,19 @@ namespace ReservationFootballStadiums
             //        if (!TimeSpan.TryParse("07:35", out time))
             //        {
             //// handle validation error
+            //}
             //        }
             //string hour = cmbHours.SelectedItem.ToString();
             //MessageBox.Show(hour);
             //TimeSpan time = TimeSpan.Parse(hour);
 
-            List<Bookings> bookings = db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value && (stadiumId != 0 ? b.StadiumId == stadiumId : true)/* && (b.Time == time)*/).ToList();
+            //List<Bookings> bookings = db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value && (stadiumId != 0 ? b.StadiumId == stadiumId : true)/* && (b.Time == time)*/).ToList();
 
-            //MessageBox.Show(cmbSearchHour.SelectedValue.ToString());
-            
-                foreach (Bookings book in db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value))
-                {
+
+            //MessageBox.Show(stadiumId.ToString());
+            foreach (Bookings book in db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value).ToList())
+             
+            {
 
                     VwReservs item = new VwReservs
                     {
@@ -357,8 +367,10 @@ namespace ReservationFootballStadiums
 
                     };
                     DgBookings.Items.Add(item);
+         
 
-                
+
+
             }
         }
     }
