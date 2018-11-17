@@ -90,14 +90,13 @@ namespace ReservationFootballStadiums
             TxtPhone.Text = "";
             TxtEmail.Text = "";
         }
-
-        //Add buttonunua click eventi
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        private void update()
         {
+
             if (string.IsNullOrEmpty(TxtName.Text) && string.IsNullOrEmpty(TxtSurname.Text) && string.IsNullOrEmpty(TxtPhone.Text) && string.IsNullOrEmpty(TxtEmail.Text))
             {
                 MessageBox.Show("xanalari doldur");
-              
+
                 return;
 
             }
@@ -110,12 +109,19 @@ namespace ReservationFootballStadiums
                 Phone = TxtPhone.Text,
                 Email = TxtEmail.Text
             };
+            db.Contacts.Add(contact);
+        }
+
+        //Add buttonunua click eventi
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+            update();
+
+
+
+
               
-
-
-      
-            
-                db.Contacts.Add(contact);
             db.SaveChanges();
             FillFullName();
             mw.FillContacts();
@@ -125,24 +131,30 @@ namespace ReservationFootballStadiums
 
         }
 
-        //private void BtnUpdate_Click(object sender, RoutedEventArgs e)
-        //{
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        {
 
-        //    Contacts selectedContact = new Contacts
-        //    {
+           
+        }
+
+        private void BtnUpdate_Click_1(object sender, RoutedEventArgs e)
+        {
+            CmbContact.Items.Clear();
+            Contacts selectedContact = new Contacts
+            {
 
 
-        //        Name = TxtName.Text,
-        //        Surname = TxtSurname.Text,
-        //        Phone = TxtPhone.Text,
-        //        Email = TxtEmail.Text
-        //    };
-        //    db.SaveChanges();
-        //    mw.FillContacts();
+                Name = TxtName.Text,
+                Surname = TxtSurname.Text,
+                Phone = TxtPhone.Text,
+                Email = TxtEmail.Text
+            };
+          
+            db.Contacts.Add(selectedContact);
+            db.SaveChanges();
+            mw.FillContacts();
 
-        //    Reset();
-        //}
-
-      
+            Reset();
+        }
     }
 }

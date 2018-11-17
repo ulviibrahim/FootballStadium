@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="4278503321754662a36334478235a031" Name="Diagram1">
         <EntityTypeShape EntityType="ReservationModel.Bookings" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ReservationModel.Contacts" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ReservationModel.Contacts" Width="1.5" PointX="8.25" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ReservationModel.Rooms" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ReservationModel.Stadiums" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="ReservationModel.FK_Bookings_Contacts" ManuallyRouted="false" />

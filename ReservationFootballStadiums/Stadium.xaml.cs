@@ -61,6 +61,13 @@ namespace ReservationFootballStadiums
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(TxtStadium.Text))
+                
+                {
+                MessageBox.Show("Zəhmət olmasa Meydança əlavə edin");
+                return;
+            }
+          
             CmbStadiums.Items.Clear();
             Stadiums stadium = new Stadiums
             {

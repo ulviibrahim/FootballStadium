@@ -28,16 +28,20 @@ namespace ReservationFootballStadiums
         public MainWindow()
         {
             InitializeComponent();
-           
+            fillcmbSearcStadium();
+            fillsrcHours();
+            ClnCalendar.DisplayDateStart = DateTime.Today;
+            
+
+
         }
        
 
 
-      private void Show()
+      private void Visibilhidden()
         {
             CmbHours.Items.Clear();
             CmbHours.Text = "";
-
             CmbContacts.Items.Clear();
             CmbContacts.Visibility = Visibility.Hidden;
             LblContacts.Visibility = Visibility.Hidden;
@@ -58,7 +62,7 @@ namespace ReservationFootballStadiums
            
         {
             fillStadiums();
-            Show();
+            Visibilhidden();
 
 
 
@@ -104,6 +108,7 @@ namespace ReservationFootballStadiums
 
         private void CmbHours_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+           
             fillStadiums();
             if (CmbContacts.SelectedIndex==-1)
             {
@@ -119,6 +124,7 @@ namespace ReservationFootballStadiums
 
 
             }
+
         }
 
         //Contactlari elave etmek ucun metod.
@@ -190,6 +196,9 @@ namespace ReservationFootballStadiums
         
         private void BtnReserv_Click(object sender, RoutedEventArgs e)
         {
+            
+
+
             if (string.IsNullOrEmpty(CmbHours.Text) && string.IsNullOrEmpty(CmbStadiums.Text) && string.IsNullOrEmpty(CmbContacts.Text))
             {
                 MessageBox.Show("xanalari doldur");
@@ -220,28 +229,73 @@ namespace ReservationFootballStadiums
             db.Bookings.Add(booking);
             db.SaveChanges();
             FillHours();
-            
 
-           
-            DgBookings.Items.Clear();
-            foreach (Bookings book in db.Bookings)
+            ClnCalendar.SelectedDate = DateTime.Now;
+          
+
+
+
+        }
+        private void fillsrcHours()
+        {
+            TimeSpan StartTime = new TimeSpan(10, 0, 0);
+            TimeSpan EndTime = new TimeSpan(3, 0, 0);
+            int interval = (int)(EndTime.Subtract(StartTime).TotalHours + 24);
+
+            for (int i = 0; i < interval; i++)
             {
 
-                VwReservs item = new VwReservs
+
+                cmbSearchHours.Items.Add(StartTime.ToString(@"hh\:mm"));
+
+
+
+
+                StartTime = StartTime.Add(new TimeSpan(1, 0, 0));
+
+                if (StartTime.Hours == 0)
                 {
-                    Id = book.Id,
-                    Fullname = book.Contacts.Name + " " + book.Contacts.Surname,
-                    Date = book.Date.ToString("dd.MM.yyyy"),
-                    Time=book.Time.ToString(@"hh\:mm"),
-                    Email=book.Contacts.Email,
-                    Stadion=book.Stadiums.Name
+                    StartTime = new TimeSpan(0, 0, 0);
+                }
 
 
-                };
-                DgBookings.Items.Add(item);
-              
             }
 
+        }
+        private void fillcmbSearcStadium()
+        {
+            cmbSearchStadiums.Items.Clear();
+
+            //Stadiums stad = db.Stadiums.FirstOrDefault(s => s.Name == cmbSearchStadiums.Text);
+            //DateTime date = dpSearch.SelectedDate.Value;
+            //if (cmbSearchHours.SelectedItem != null)
+            //{
+            //    string hour = cmbSearchHours.SelectedItem.ToString();
+            //    TimeSpan time = TimeSpan.Parse(hour);
+
+
+
+
+
+
+            //    foreach (Stadiums stadium in db.Stadiums.Where(s => s.Bookings.Where(b => b.Date == date && b.Time == time).Count() == 0).ToList().OrderBy(n => n.Name))
+            //    {
+            //        cmbSearchStadiums.Items.Add(stadium.Name);
+
+            //    }
+            //}
+
+
+
+
+
+
+            foreach (Stadiums stadium in db.Stadiums.ToList().OrderBy(n => n.Name))
+                {
+                    cmbSearchStadiums.Items.Add(stadium);
+
+                }
+            
         }
 
         private void CmbStadiums_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -251,6 +305,61 @@ namespace ReservationFootballStadiums
             LblContacts.Visibility = Visibility.Visible;
             CmbContacts.Visibility = Visibility.Visible;
             BtnPersonAdd.Visibility = Visibility.Visible;
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            DgBookings.Items.Clear();
+
+
+            int stadiumId = 0;
+
+            if (!string.IsNullOrEmpty(cmbSearchStadiums.Text))
+            {
+                stadiumId = db.Stadiums.FirstOrDefault(s => s.Name == cmbSearchStadiums.Text).Id;
+
+            }
+            //string format = @"hh\:mm";
+            //Bookings time = db.Bookings.FirstOrDefault();
+
+            //DateTime added = Convert.ToDateTime(row["added"].ToString());
+            //string formatted = added.toString("yyyy-MM-dd HH:mm:ss");
+
+            //if (cmbSearchHour.SelectedItem != null)
+            //{
+
+            //            TimeSpan time;
+            //        if (!TimeSpan.TryParse("07:35", out time))
+            //        {
+            //// handle validation error
+            //        }
+            //string hour = cmbHours.SelectedItem.ToString();
+            //MessageBox.Show(hour);
+            //TimeSpan time = TimeSpan.Parse(hour);
+
+            List<Bookings> bookings = db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value && (stadiumId != 0 ? b.StadiumId == stadiumId : true)/* && (b.Time == time)*/).ToList();
+
+            //MessageBox.Show(cmbSearchHour.SelectedValue.ToString());
+            
+                foreach (Bookings book in db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value))
+                {
+
+                    VwReservs item = new VwReservs
+                    {
+                        Id = book.Id,
+                        Fullname = book.Contacts.Name + " " + book.Contacts.Surname,
+                        Date = book.Date.ToString("dd.MM.yyyy"),
+                        Time = book.Time.ToString(@"hh\:mm"),
+                        Email = book.Contacts.Email,
+                        Stadion = book.Stadiums.Name,
+                        curPrice = book.Stadiums.price
+                       //curPrice = book.Stadiums.price.IsDBNull(7) ? 0M : sdr.GetDecimal(7)
+
+                    };
+                    DgBookings.Items.Add(item);
+
+                
+            }
         }
     }
 

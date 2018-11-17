@@ -32,6 +32,6 @@
         <Label x:Name="LblEmail" HorizontalAlignment="Left" Margin="17,326,0,0" VerticalAlignment="Top" Content="E-Mail" Width="117" FontSize="18" FontWeight="Bold" FontFamily="Rockwell Extra Bold" Height="36" RenderTransformOrigin="0.488,0.524"/>
         <TextBox x:Name="TxtEmail" HorizontalAlignment="Left" Height="20" Margin="134,328,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="161" FontSize="14" FontFamily="Sitka Small" />
         <Button x:Name="BtnDelete" Content="Sil" Visibility="Hidden" HorizontalAlignment="Left" Margin="199,394,0,0" VerticalAlignment="Top" Width="96" Height="33"/>
-        <Button x:Name="BtnUpdate" Content="Yenilə" Visibility="Hidden" HorizontalAlignment="Left" Margin="38,394,0,0" VerticalAlignment="Top" Width="96" Height="33"/>
+        <Button x:Name="BtnUpdate" Content="Yenilə" Visibility="Hidden" HorizontalAlignment="Left" Margin="38,394,0,0" VerticalAlignment="Top" Width="96" Height="33" Click="BtnUpdate_Click_1"/>
     </Grid>
 </Window>

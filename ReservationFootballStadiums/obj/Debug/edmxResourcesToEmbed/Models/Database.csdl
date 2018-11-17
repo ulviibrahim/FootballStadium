@@ -44,7 +44,7 @@
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Bookings" Relationship="Self.FK_Bookings_Stadiums" FromRole="Stadiums" ToRole="Bookings" />
     <NavigationProperty Name="Rooms" Relationship="Self.FK_Stadiums_Rooms" FromRole="Stadiums" ToRole="Rooms" />
-    <Property Name="price" Type="Decimal" Precision="4" Scale="2" />
+    <Property Name="price" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
   </EntityType>
   <Association Name="FK_Bookings_Contacts">
     <End Role="Contacts" Type="Self.Contacts" Multiplicity="1" />

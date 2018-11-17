@@ -23,7 +23,7 @@ namespace ReservationFootballStadiums.Models
         public int Id { get; set; }
         public Nullable<int> RoomId { get; set; }
         public string Name { get; set; }
-        public Nullable<decimal> price { get; set; }
+        public decimal price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bookings> Bookings { get; set; }

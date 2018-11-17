@@ -163,6 +163,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Content\stadiumwallpaper.png" />
+    <Resource Include="Content\Arsenalwall.jpg" />
+    <Resource Include="Content\bayraq.jpg" />
     <Content Include="Models\Database.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Database.edmx</DependentUpon>

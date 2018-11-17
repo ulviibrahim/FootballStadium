@@ -38,7 +38,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="RoomId" Type="int" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="price" Type="decimal" Precision="4" Scale="2" />
+    <Property Name="price" Type="decimal" Precision="4" Scale="2" Nullable="false" />
   </EntityType>
   <Association Name="FK_Bookings_Contacts">
     <End Role="Contacts" Type="Self.Contacts" Multiplicity="1" />

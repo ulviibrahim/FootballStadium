@@ -8,11 +8,10 @@
         mc:Ignorable="d"
         Title="Futbol meydancasi Resevasiyasi" Height="600" Width="1000" ResizeMode="CanResizeWithGrip" WindowState="Maximized">
     <Grid>
-
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
-                <GradientStop Color="#FF64C7D1" Offset="1"/>
+                <GradientStop Color="#FF4F4FBD" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
         <ComboBox x:Name="CmbStadiums" Visibility="Hidden" HorizontalAlignment="Left" Margin="35,333,0,0" VerticalAlignment="Top" Height="25" Width="150" SelectionChanged="CmbStadiums_SelectionChanged" 
@@ -22,8 +21,8 @@
         <Label x:Name="LblStadium" Visibility="Hidden" Content="Meydança seçin" HorizontalAlignment="Left" Margin="38,298,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="#FFF3E9E9"/>
         <Calendar x:Name="ClnCalendar" HorizontalAlignment="Left" Margin="35,51,0,0" VerticalAlignment="Top" Height="173" Width="179" SelectedDatesChanged="ClnCalendar_SelectedDatesChanged" />
         <ComboBox x:Name="CmbHours" HorizontalAlignment="Left" Margin="38,276,0,0" VerticalAlignment="Top" Width="150" SelectionChanged="CmbHours_SelectionChanged"/>
-        <Image HorizontalAlignment="Left" Height="38" Margin="928,25,0,0" VerticalAlignment="Top"  Width="32" Source="/Content/admin.png"/>
-        <DataGrid x:Name="DgBookings" ItemsSource="{Binding Path=VwReservs}" HorizontalAlignment="Left" Height="201" Margin="306,51,0,0" VerticalAlignment="Top" Width="617">
+        <Image HorizontalAlignment="Left" Height="27" Margin="212,-31,0,0" VerticalAlignment="Top"  Width="32" Source="/Content/admin.png"/>
+        <DataGrid x:Name="DgBookings" ItemsSource="{Binding Path=VwReservs}" HorizontalAlignment="Left" Height="201" Margin="315,157,0,0" VerticalAlignment="Top" Width="617">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Header="Id" Visibility="Hidden" />
                 <DataGridTextColumn Binding="{Binding Fullname}" Header="Şəxs" />
@@ -31,6 +30,8 @@
                 <DataGridTextColumn Binding="{Binding Date}" Header="Gün"  />
                 <DataGridTextColumn Binding="{Binding Time}" Header="Saat"  />
                 <DataGridTextColumn Binding="{Binding Email}" Header="Mail"  />
+                <DataGridTextColumn Binding="{Binding curPrice}" Header="Qiymət"  />
+                
             </DataGrid.Columns>
         </DataGrid>
 
@@ -48,7 +49,21 @@
 
 
         </Button>
-
+        <Button x:Name="BtnSearch" Content="Axtar"  Background="Azure" HorizontalAlignment="Left" Margin="854,84,0,0" VerticalAlignment="Top" Width="78" Height="23" Foreground="#FFF52D2D" FontSize="14" FontWeight="Bold" FontFamily="Perpetua Titling MT" Click="BtnSearch_Click" />
+        <ComboBox x:Name="cmbSearchStadiums" HorizontalAlignment="Left" Margin="480,85,0,0" VerticalAlignment="Top" Width="90"
+                  ItemsSource="{Binding Path=Stadiums}"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="Id"
+                  SelectedValue="{Binding Path=Stadiums}"
+                  />
+        <ComboBox x:Name="cmbSearchHours" HorizontalAlignment="Left" Margin="610,85,0,0" VerticalAlignment="Top" Width="85"
+                  />
+        <TextBox x:Name="txtSearchname" HorizontalAlignment="Left" Height="23" Margin="732,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
+        <Label x:Name="lblSearcFullname" Content="AD, SOYAD" HorizontalAlignment="Left" Margin="732,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
+        <Label x:Name="lblSearcHours" Content="SAAT" HorizontalAlignment="Left" Margin="610,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
+        <Label x:Name="lblSearcStadiums" Content="MEYDANÇA" HorizontalAlignment="Left" Margin="480,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
+        <Label x:Name="lblSearcDate" Content="TARİX" HorizontalAlignment="Left" Margin="315,54,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
+        <DatePicker x:Name="dpSearch" HorizontalAlignment="Left" Margin="315,85,0,0" VerticalAlignment="Top" Height="23" Width="124"/>
 
     </Grid>
 </Window>
