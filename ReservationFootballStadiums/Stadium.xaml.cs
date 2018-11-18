@@ -28,6 +28,7 @@ namespace ReservationFootballStadiums
            
             InitializeComponent();
             Fillstadiums();
+         
            this.Sta = main;
         }
         private void Fillstadiums()
@@ -71,6 +72,7 @@ namespace ReservationFootballStadiums
             CmbStadiums.Items.Clear();
             Stadiums stadium = new Stadiums
             {
+                Id = Convert.ToInt32(CmbStadiums.SelectedValue),
               Name=TxtStadium.Text
             };
             db.Stadiums.Add(stadium);

@@ -31,7 +31,7 @@
                 <DataGridTextColumn Binding="{Binding Time}" Header="Saat"  />
                 <DataGridTextColumn Binding="{Binding Email}" Header="Mail"  />
                 <DataGridTextColumn Binding="{Binding curPrice}" Header="Qiymət"  />
-                
+
             </DataGrid.Columns>
         </DataGrid>
 
@@ -49,21 +49,34 @@
 
 
         </Button>
-        <Button x:Name="BtnSearch" Content="Axtar"  Background="Azure" HorizontalAlignment="Left" Margin="854,84,0,0" VerticalAlignment="Top" Width="78" Height="23" Foreground="#FFF52D2D" FontSize="14" FontWeight="Bold" FontFamily="Perpetua Titling MT" Click="BtnSearch_Click" />
-        <ComboBox x:Name="cmbSearchStadiums" HorizontalAlignment="Left" Margin="480,85,0,0" VerticalAlignment="Top" Width="90"
+        <Button x:Name="BtnSearch" Content="" HorizontalAlignment="Left" Margin="854,84,0,0" VerticalAlignment="Top" Width="51" Height="23" Foreground="#FFF52D2D" FontSize="14" FontWeight="Bold" FontFamily="Perpetua Titling MT" Click="BtnSearch_Click" BorderBrush="#FF707070" >
+            <Button.Background>
+                <ImageBrush ImageSource="Content/download.png" TileMode="Tile">
+                    <ImageBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ImageBrush.RelativeTransform>
+                </ImageBrush>
+            </Button.Background>
+        </Button>
+        <ComboBox x:Name="cmbSearchStadiums" HorizontalAlignment="Left" Margin="501,85,0,0" VerticalAlignment="Top" Width="124"
                   ItemsSource="{Binding Path=Stadiums}"
                   DisplayMemberPath="Name"
                   SelectedValuePath="Id"
                   SelectedValue="{Binding Path=Stadiums}"
                   />
-        <ComboBox x:Name="cmbSearchHours" HorizontalAlignment="Left" Margin="610,85,0,0" VerticalAlignment="Top" Width="85"
+        <ComboBox x:Name="cmbSearchHours"  HorizontalAlignment="Left" Margin="372,395,0,0" VerticalAlignment="Top" Width="85"
                   />
-        <TextBox x:Name="txtSearchname" HorizontalAlignment="Left" Height="23" Margin="732,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
-        <Label x:Name="lblSearcFullname" Content="AD, SOYAD" HorizontalAlignment="Left" Margin="732,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
-        <Label x:Name="lblSearcHours" Content="SAAT" HorizontalAlignment="Left" Margin="610,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
-        <Label x:Name="lblSearcStadiums" Content="MEYDANÇA" HorizontalAlignment="Left" Margin="480,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
+        <TextBox x:Name="txtSearchname" HorizontalAlignment="Left" Height="23" Margin="674,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152"/>
+        <Label x:Name="lblSearcFullname" Content="AD, SOYAD,TELEFON" HorizontalAlignment="Left" Margin="687,54,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
+        <Label x:Name="lblSearcHours" Content="AXTAR" HorizontalAlignment="Left" Margin="854,51,0,0" VerticalAlignment="Top" Width="51" FontWeight="Bold" Foreground="#FFF7F1F1"/>
+        <Label x:Name="lblSearcStadiums" Content="MEYDANÇA" HorizontalAlignment="Left" Margin="518,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
         <Label x:Name="lblSearcDate" Content="TARİX" HorizontalAlignment="Left" Margin="315,54,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
-        <DatePicker x:Name="dpSearch" HorizontalAlignment="Left" Margin="315,85,0,0" VerticalAlignment="Top" Height="23" Width="124"/>
+        <DatePicker x:Name="dpSearch" HorizontalAlignment="Left" Margin="315,85,0,0" VerticalAlignment="Top" Height="23" Width="142" Cursor="Pen"  Background="#FF0F56AC"/>
 
     </Grid>
 </Window>

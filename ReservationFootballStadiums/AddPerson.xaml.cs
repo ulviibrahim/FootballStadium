@@ -20,15 +20,16 @@ namespace ReservationFootballStadiums
     /// </summary>
     public partial class AddPerson : Window
     {
+      
         ReservationEntities db = new ReservationEntities();
         //private object cmbContact;
-        MainWindow mw;
+        public MainWindow mw;
    
         
         public ReservationEntities Db { get => db; set => db = value; }
         public object MessageBoxButtons { get; private set; }
         public Contacts SelectedUser { get; private set; }
-
+        public Contacts Contact;
         public Contacts selectedContact;
         public AddPerson(MainWindow main)
         {
@@ -125,12 +126,25 @@ namespace ReservationFootballStadiums
             db.SaveChanges();
             FillFullName();
             mw.FillContacts();
-           
+            mw.TriggerAddbtn();
             Reset();
+            this.Close();
 
 
         }
 
+        public void FillAllFields()
+        {
+            
+
+            //CmbContact.SelectedValuePath = Contact.Id.ToString();
+            TxtName.Text = Contact.Name;
+            TxtSurname.Text = Contact.Surname;
+            TxtPhone.Text = Contact.Phone;
+            TxtEmail.Text = Contact.Email
+                ;
+
+        }
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
 
@@ -139,16 +153,7 @@ namespace ReservationFootballStadiums
 
         private void BtnUpdate_Click_1(object sender, RoutedEventArgs e)
         {
-            CmbContact.Items.Clear();
-            Contacts selectedContact = new Contacts
-            {
 
-
-                Name = TxtName.Text,
-                Surname = TxtSurname.Text,
-                Phone = TxtPhone.Text,
-                Email = TxtEmail.Text
-            };
           
             db.Contacts.Add(selectedContact);
             db.SaveChanges();
