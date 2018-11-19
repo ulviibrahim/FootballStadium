@@ -10,12 +10,6 @@
         <Grid.Background>
             <ImageBrush ImageSource="Content/arsenal.png" Stretch="None"/>
         </Grid.Background>
-        <ComboBox x:Name="CmbContact"  Visibility="Visible"  HorizontalAlignment="Left" Margin="62,49,0,0" VerticalAlignment="Top" Width="209" Height="21"
-                  ItemsSource="{Binding Path=FullName}"
-                  DisplayMemberPath="All"
-                  SelectedValuePath="Id"
-                  SelectedValue="{Binding Path=FullName}" SelectionChanged="CmbContact_SelectionChanged"
-                  />
         <Label x:Name="LblName" HorizontalAlignment="Left" Margin="38,142,0,0" VerticalAlignment="Top" Content="Ad" Width="52" FontSize="18" FontWeight="Bold" FontFamily="Rockwell Extra Bold" Height="36" RenderTransformOrigin="0.488,0.524"/>
 
         <TextBox x:Name="TxtName" HorizontalAlignment="Left" Height="23" Margin="134,142,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="161" FontSize="14" FontFamily="Sitka Small" />
@@ -31,7 +25,8 @@
         <Button x:Name="BtnAdd" Content="Əlavə et" HorizontalAlignment="Left" Margin="38,394,0,0" Visibility="Visible" VerticalAlignment="Top" Width="96" Height="33" Click="BtnAdd_Click" />
         <Label x:Name="LblEmail" HorizontalAlignment="Left" Margin="17,326,0,0" VerticalAlignment="Top" Content="E-Mail" Width="117" FontSize="18" FontWeight="Bold" FontFamily="Rockwell Extra Bold" Height="36" RenderTransformOrigin="0.488,0.524"/>
         <TextBox x:Name="TxtEmail" HorizontalAlignment="Left" Height="20" Margin="134,328,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="161" FontSize="14" FontFamily="Sitka Small" />
-        <Button x:Name="BtnDelete" Content="Sil" Visibility="Hidden" HorizontalAlignment="Left" Margin="199,394,0,0" VerticalAlignment="Top" Width="96" Height="33"/>
+        <Button x:Name="BtnDelete" Content="Sil" Visibility="Hidden" HorizontalAlignment="Left" Margin="199,394,0,0" VerticalAlignment="Top" Width="96" Height="33" Click="BtnDelete_Click"/>
         <Button x:Name="BtnUpdate" Content="Yenilə" Visibility="Hidden" HorizontalAlignment="Left" Margin="38,394,0,0" VerticalAlignment="Top" Width="96" Height="33" Click="BtnUpdate_Click_1"/>
+        <Label x:Name="lblentry" Content="Şəxs əlavə edin" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="63,44,0,0" Width="232" Height="36" FontWeight="Bold" FontSize="20" Foreground="#FF1B9AA0"/>
     </Grid>
 </Window>

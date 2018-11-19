@@ -8,21 +8,31 @@
         mc:Ignorable="d"
         Title="Futbol meydancasi Resevasiyasi" Height="600" Width="1000" ResizeMode="CanResizeWithGrip" WindowState="Maximized">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="89*"/>
+            <ColumnDefinition Width="135*"/>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="49*"/>
+            <ColumnDefinition Width="54*"/>
+            <ColumnDefinition Width="618*"/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="Black" Offset="0"/>
                 <GradientStop Color="#FF4F4FBD" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <ComboBox x:Name="CmbStadiums" Visibility="Hidden" HorizontalAlignment="Left" Margin="35,333,0,0" VerticalAlignment="Top" Height="25" Width="150" SelectionChanged="CmbStadiums_SelectionChanged" 
-                  
+        <ComboBox x:Name="CmbStadiums" Visibility="Hidden" HorizontalAlignment="Left" Margin="35,333,0,0" VerticalAlignment="Top" Height="25" Width="150" SelectionChanged="CmbStadiums_SelectionChanged" Grid.ColumnSpan="2" 
+                   ItemsSource="{Binding Path=Stadiums}"
+                  DisplayMemberPath="Name"
+                  SelectedValuePath="Id"
+                  SelectedValue="{Binding Path=Stadiums}"
                   />
 
-        <Label x:Name="LblStadium" Visibility="Hidden" Content="Meydança seçin" HorizontalAlignment="Left" Margin="38,298,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="#FFF3E9E9"/>
-        <Calendar x:Name="ClnCalendar" HorizontalAlignment="Left" Margin="35,51,0,0" VerticalAlignment="Top" Height="173" Width="179" SelectedDatesChanged="ClnCalendar_SelectedDatesChanged" />
-        <ComboBox x:Name="CmbHours" HorizontalAlignment="Left" Margin="38,276,0,0" VerticalAlignment="Top" Width="150" SelectionChanged="CmbHours_SelectionChanged"/>
-        <Image HorizontalAlignment="Left" Height="27" Margin="212,-31,0,0" VerticalAlignment="Top"  Width="32" Source="/Content/admin.png"/>
-        <DataGrid x:Name="DgBookings" ItemsSource="{Binding Path=VwReservs}" HorizontalAlignment="Left" Height="201" Margin="315,157,0,0" VerticalAlignment="Top" Width="617">
+        <Label x:Name="LblStadium" Visibility="Hidden" Content="Meydança seçin" HorizontalAlignment="Left" Margin="38,298,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="#FFF3E9E9" Grid.ColumnSpan="2" Height="29" Width="114"/>
+        <Calendar x:Name="ClnCalendar" HorizontalAlignment="Left" Margin="35,51,0,0" VerticalAlignment="Top" Height="173" Width="179" SelectedDatesChanged="ClnCalendar_SelectedDatesChanged" Grid.ColumnSpan="2" />
+        <ComboBox x:Name="CmbHours" HorizontalAlignment="Left" Margin="38,276,0,0" VerticalAlignment="Top" Width="150" SelectionChanged="CmbHours_SelectionChanged" Grid.ColumnSpan="2" Height="22"/>
+        <DataGrid x:Name="DgBookings" ItemsSource="{Binding Path=VwReservs}" HorizontalAlignment="Left" Height="201" Margin="35,157,0,0" VerticalAlignment="Top" Width="616" Grid.Column="4" Grid.ColumnSpan="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Header="Id" Visibility="Hidden" />
                 <DataGridTextColumn Binding="{Binding Fullname}" Header="Şəxs" />
@@ -35,48 +45,54 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label x:Name="lblHours" Content="Saat Seçin" HorizontalAlignment="Left" Margin="38,242,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="#FFF3E9E9" RenderTransformOrigin="0.5,0.5">
+        <Label x:Name="lblHours" Content="Saat Seçin" HorizontalAlignment="Left" Margin="38,242,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="#FFF3E9E9" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Height="29" Width="77">
 
         </Label>
-        <ComboBox x:Name="CmbContacts"  Visibility="Hidden"  HorizontalAlignment="Left" Margin="38,392,0,0" VerticalAlignment="Top" Width="147" Height="25" SelectionChanged="CmbContacts_SelectionChanged"/>
-        <Label x:Name="LblContacts" Visibility="Hidden" Content="Şəxs seçin"   HorizontalAlignment="Left" Margin="38,358,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="#FFF3E9E9"/>
-        <Button x:Name="BtnPersonAdd"  Visibility="Hidden" Content="Əlavə Et"  HorizontalAlignment="Left" Margin="212,392,0,0" VerticalAlignment="Top" Width="72" Height="25" Click="BtnPersonAdd_Click_1"/>
-        <Button x:Name="BtnUpdate_Delete" Visibility="Hidden" Content="Yenile\sil" HorizontalAlignment="Left" Margin="212,392,0,0" VerticalAlignment="Top" Width="72" Height="25" Click="BtnUpdate_Delete_Click"/>
-        <Button x:Name="BtnAddStadium" Visibility="Hidden" Content="Əlavə Et" HorizontalAlignment="Left" Margin="212,333,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="BtnAddStadium_Click"/>
-        <Button x:Name="BtnUpdate_Delete_Stad" Visibility="Hidden" Content="Yenile\sil" HorizontalAlignment="Left" Margin="212,333,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="BtnUpdate_Delete_Click"/>
-        <Button x:Name="BtnReserv" Content="Rezerv et" Visibility="Hidden" Background="Azure" HorizontalAlignment="Left" Margin="38,441,0,0" VerticalAlignment="Top" Width="147" Height="25" Foreground="#FFF52D2D" FontSize="14" FontWeight="Bold" Click="BtnReserv_Click">
+        <ComboBox x:Name="CmbContacts" 
+                  Visibility="Hidden"
+                  HorizontalAlignment="Left" Margin="38,392,0,0" VerticalAlignment="Top" Width="147" Height="25" SelectionChanged="CmbContacts_SelectionChanged" Grid.ColumnSpan="2"
+                  ItemsSource="{Binding Path=Fullname}"
+                  DisplayMemberPath="All"
+                  SelectedValuePath="Id"
+                  SelectedValue="{Binding Path=Fullname}"
+                  />
+        <Label x:Name="LblContacts" Visibility="Hidden" Content="Şəxs seçin"   HorizontalAlignment="Left" Margin="38,358,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" Foreground="#FFF3E9E9" Grid.ColumnSpan="2" Height="29" Width="76"/>
+        <Button x:Name="BtnPersonAdd"  Visibility="Hidden" Content="Əlavə Et"  HorizontalAlignment="Left" Margin="123,392,0,0" VerticalAlignment="Top" Width="72" Height="25" Click="BtnPersonAdd_Click_1" Grid.Column="1" Grid.ColumnSpan="3"/>
+        <Button x:Name="BtnUpdate_Delete" Visibility="Hidden" Content="Yenile\sil" HorizontalAlignment="Left" Margin="123,392,0,0" VerticalAlignment="Top" Width="72" Height="25" Click="BtnUpdate_Delete_Click" Grid.Column="1" Grid.ColumnSpan="3"/>
+        <Button x:Name="BtnAddStadium" Visibility="Hidden" Content="Əlavə Et" HorizontalAlignment="Left" Margin="123,333,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="BtnAddStadium_Click" Grid.Column="1" Grid.ColumnSpan="3"/>
+        <Button x:Name="BtnUpdate_Delete_Stad" Visibility="Hidden" Content="Yenile\sil" HorizontalAlignment="Left" Margin="123,333,0,0" VerticalAlignment="Top" Width="75" Height="25"  Grid.Column="1" Click="BtnUpdate_Delete_Stad_Click" Grid.ColumnSpan="3"/>
+        <Button x:Name="BtnReserv" Content="Rezerv et"  Visibility="Hidden" Background="Azure" HorizontalAlignment="Left" Margin="38,441,0,0" VerticalAlignment="Top" Width="147" Height="25" Foreground="#FFF52D2D" FontSize="14" FontWeight="Bold" Click="BtnReserv_Click" Grid.ColumnSpan="2">
 
 
 
         </Button>
-        <Button x:Name="BtnSearch" Content="" HorizontalAlignment="Left" Margin="854,84,0,0" VerticalAlignment="Top" Width="51" Height="23" Foreground="#FFF52D2D" FontSize="14" FontWeight="Bold" FontFamily="Perpetua Titling MT" Click="BtnSearch_Click" BorderBrush="#FF707070" >
+        <Button x:Name="BtnSearch" Content="Axtar" HorizontalAlignment="Left" Margin="519,84,0,0" VerticalAlignment="Top" Width="52" Height="23" Foreground="#FFF52D2D" FontFamily="Perpetua Titling MT" Click="BtnSearch_Click" BorderBrush="#FF707070" Grid.Column="5" FontWeight="Bold" FontSize="11" >
             <Button.Background>
-                <ImageBrush ImageSource="Content/download.png" TileMode="Tile">
-                    <ImageBrush.RelativeTransform>
-                        <TransformGroup>
-                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </ImageBrush.RelativeTransform>
-                </ImageBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                    <GradientStop Color="#FFF6F6F6" Offset="0.782"/>
+                    <GradientStop Color="#FFF6F6F6" Offset="0.065"/>
+                </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <ComboBox x:Name="cmbSearchStadiums" HorizontalAlignment="Left" Margin="501,85,0,0" VerticalAlignment="Top" Width="124"
+        <ComboBox x:Name="cmbSearchStadiums" HorizontalAlignment="Left" Margin="167,85,0,0" VerticalAlignment="Top" Width="124"
                   ItemsSource="{Binding Path=Stadiums}"
                   DisplayMemberPath="Name"
                   SelectedValuePath="Id"
-                  SelectedValue="{Binding Path=Stadiums}"
+                  SelectedValue="{Binding Path=Stadiums}" Grid.Column="5" Height="22"
                   />
-        <ComboBox x:Name="cmbSearchHours"  HorizontalAlignment="Left" Margin="372,395,0,0" VerticalAlignment="Top" Width="85"
-                  />
-        <TextBox x:Name="txtSearchname" HorizontalAlignment="Left" Height="23" Margin="674,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152"/>
-        <Label x:Name="lblSearcFullname" Content="AD, SOYAD,TELEFON" HorizontalAlignment="Left" Margin="687,54,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
-        <Label x:Name="lblSearcHours" Content="AXTAR" HorizontalAlignment="Left" Margin="854,51,0,0" VerticalAlignment="Top" Width="51" FontWeight="Bold" Foreground="#FFF7F1F1"/>
-        <Label x:Name="lblSearcStadiums" Content="MEYDANÇA" HorizontalAlignment="Left" Margin="518,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
-        <Label x:Name="lblSearcDate" Content="TARİX" HorizontalAlignment="Left" Margin="315,54,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1"/>
-        <DatePicker x:Name="dpSearch" HorizontalAlignment="Left" Margin="315,85,0,0" VerticalAlignment="Top" Height="23" Width="142" Cursor="Pen"  Background="#FF0F56AC"/>
+        <ComboBox x:Name="cmbSearchHours"
+                  Visibility="Hidden"
+                  HorizontalAlignment="Left" Margin="37,395,0,0" VerticalAlignment="Top" Width="86" Grid.Column="5" Height="22"
+                  
+                 />
+        <TextBox x:Name="txtSearchname" HorizontalAlignment="Left" Height="23" Margin="339,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" Grid.Column="5"/>
+        <Label x:Name="lblSearcFullname" Content="AD, SOYAD,TELEFON" HorizontalAlignment="Left" Margin="353,54,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1" Grid.Column="5" Height="26"/>
+        <Label x:Name="lblSearcHours" Content="AXTAR" HorizontalAlignment="Left" Margin="519,51,0,0" VerticalAlignment="Top" Width="52" FontWeight="Bold" Foreground="#FFF7F1F1" Grid.Column="5" Height="26"/>
+        <Label x:Name="lblSearcStadiums" Content="MEYDANÇA" HorizontalAlignment="Left" Margin="183,51,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1" Grid.Column="5" Height="26"/>
+        <Label x:Name="lblSearcDate" Content="TARİX" HorizontalAlignment="Left" Margin="35,54,0,0" VerticalAlignment="Top" Width="94" FontWeight="Bold" Foreground="#FFF7F1F1" Grid.Column="4" Height="26" Grid.ColumnSpan="2"/>
+        <DatePicker x:Name="dpSearch" HorizontalAlignment="Left" Margin="35,85,0,0" VerticalAlignment="Top" Height="23" Width="142" Cursor="Pen"  Background="#FF0F56AC" Grid.Column="4" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

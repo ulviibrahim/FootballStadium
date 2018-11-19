@@ -31,6 +31,8 @@ namespace ReservationFootballStadiums
             InitializeComponent();
             fillcmbSearcStadium();
             fillsrcHours();
+            FillContacts();
+            
             ClnCalendar.DisplayDateStart = DateTime.Today;
 
 
@@ -38,7 +40,7 @@ namespace ReservationFootballStadiums
         }
 
 
-
+        //Visibility methodu. Butonlari ve Labelleri gizletmek ucun
         private void Visibilhidden()
         {
             CmbHours.Items.Clear();
@@ -97,11 +99,19 @@ namespace ReservationFootballStadiums
         public void FillContacts()
 
         {
-
             CmbContacts.Items.Clear();
+
             foreach (Contacts contact in db.Contacts.OrderBy(c => c.Name).ToList())
             {
-                CmbContacts.Items.Add(contact.Name + " " + contact.Surname + " " + contact.Phone);
+                Fullname fullname = new Fullname
+                {
+                    Id = contact.Id,
+                    All = contact.Name + " " + contact.Surname + " " + contact.Phone
+                };
+                CmbContacts.Items.Add(fullname);
+
+
+
             }
         }
 
@@ -165,10 +175,12 @@ namespace ReservationFootballStadiums
 
 
 
+                
 
-                foreach (Stadiums stadium in db.Stadiums.Where(s => s.Bookings.Where(b => b.Date == date && b.Time == time).Count() == 0).ToList().OrderBy(n => n.Name))
+
+                    foreach (Stadiums stadium in db.Stadiums.Where(s => s.Bookings.Where(b => b.Date == date && b.Time == time).Count() == 0).ToList().OrderBy(n => n.Name))
                 {
-                    CmbStadiums.Items.Add(stadium.Name);
+                    CmbStadiums.Items.Add(stadium);
 
                 }
             }
@@ -183,25 +195,35 @@ namespace ReservationFootballStadiums
 
         }
 
-        public void TriggerAddbtn()
-        {
-            this.BtnUpdate_Delete_Click(BtnUpdate_Delete, new RoutedEventArgs());
-        }
+
+
+       // BtnUpdate_Delete_Click eventi Contactlar ucun
+
         private void BtnUpdate_Delete_Click(object sender, RoutedEventArgs e)
         {
-            VwReservs vwReservs = CmbContacts.SelectedItem as VwReservs;
+            if (CmbContacts.SelectedItem == null)
+            {
+
+                MessageBox.Show("sehv var");
+                LblContacts.Foreground = Brushes.Red;
+                return;
+            }
+
+            Fullname vwReservs = CmbContacts.SelectedItem as Fullname;
             AddPerson update = new AddPerson(this);
+            LblContacts.Foreground = Brushes.White;
             update.Title = "Yenilə və ya Sil";
+            update.lblentry.Content = "Şəxləri yenilə və ya sil";
             update.mw = this;
+            update.ForUpdate();
             update.Contact = db.Contacts.Find(vwReservs.Id);
             update.FillAllFields();
             update.ShowDialog();
-           
 
 
 
         }
-
+        
         private void BtnAddStadium_Click(object sender, RoutedEventArgs e)
         {
             Stadium add = new Stadium(this);
@@ -239,7 +261,7 @@ namespace ReservationFootballStadiums
                 ContactId = db.Contacts.FirstOrDefault(c => c.Phone == phone).Id,
 
             };
-
+            MessageBox.Show("Rezervasiya uğurla sonlandırıldı");
             db.Bookings.Add(booking);
             db.SaveChanges();
             FillHours();
@@ -254,10 +276,10 @@ namespace ReservationFootballStadiums
         {
 
             TimeSpan StartTime = new TimeSpan(10, 0, 0);
-            TimeSpan EndTime = new TimeSpan(3, 0, 0);
+            TimeSpan EndTime = new TimeSpan(2, 0, 0);
             int interval = (int)(EndTime.Subtract(StartTime).TotalHours + 24);
-          
-          
+
+
             for (int i = 0; i < interval; i++)
             {
 
@@ -325,87 +347,67 @@ namespace ReservationFootballStadiums
             {
                 stadiumId = db.Stadiums.FirstOrDefault(s => s.Name == cmbSearchStadiums.Text).Id;
             }
-            if(!string.IsNullOrEmpty(cmbSearchHours.Text)&&cmbSearchHours.Text!="")
 
-        //string formattime = ;
-        //Bookings time = db.Bookings.FirstOrDefault();
 
-        //DateTime added = Convert.ToDateTime(TryParse["added"].ToString());
-        /*    DateTime date = Convert.ToDateTime(TryParse["date"]).toString()*/;
-            //string formatted = added.toString("yyyy-MM-dd HH:mm:ss");
 
-            //if (cmbSearchHours.SelectedItem != null)
-            //{
 
-            //    string myhours ;
-            //    if (!DateTime.TryParse("07:35", out hour))
-            //    {
-            //        // handle validation error
-            //    }
-            //}  if (CmbHours.SelectedItem != null)
+            List<Bookings> bookings = db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value &&
+
+                (stadiumId != 0 ? b.StadiumId == stadiumId : true)
+                && (b.Contacts.Name.ToLower().Contains(txtSearchname.Text.ToLower())
+                || b.Contacts.Surname.ToLower().Contains(txtSearchname.Text.ToLower())
+                || b.Contacts.Phone.Contains(txtSearchname.Text))).ToList();
+
+
+            foreach (Bookings book in bookings.Where(b => b.Date == dpSearch.SelectedDate.Value).ToList())
+
             {
-                //TimeSpan time;
-                //if (!TimeSpan.TryParse("07:35", out time))
-                //{
-                //    // handle validation error
-                //}
-                //TimeSpan time = TimeSpan.Parse("07:35")
 
-                // ts now has a valid format
-                //DateTime dt;
-                //if (!DateTime.TryParseExact("07:35", "HH:mm", CultureInfo.InvariantCulture,
-                //                                              DateTimeStyles.None, out dt))
-                //{
-                //    // handle validation error
-                //}
-                //TimeSpan time = dt.TimeOfDay;
-                //if (!string.IsNullOrEmpty(cmbSearchHours.Text))
-                //{
-                //    if (!DateTime.TryParse("07:35", out hour))
-                //        //    {
-                //        //        // handle validation error
-                //        //    }
-                //        string hour = cmbSearchHours.SelectedItem.ToString();
-                /*    TimeSpan time = TimeSpan.TryParse("")*/
-                //if ((cmbSearchHours.Text)!="")
-                //{
-                //    string hour = cmbSearchHours.Text.ToString();
-                TimeSpan time = TimeSpan.Parse(cmbSearchHours.SelectedValue.ToString());
-
-                List<Bookings> bookings = db.Bookings.Where(b => b.Date == dpSearch.SelectedDate.Value &&
-                 
-                    (stadiumId != 0 ? b.StadiumId == stadiumId : true) && (time !=null? b.Time == time : true)
-                    && (b.Contacts.Name.ToLower().Contains(txtSearchname.Text.ToLower()) 
-                    || b.Contacts.Surname.ToLower().Contains(txtSearchname.Text.ToLower()) 
-                    || b.Contacts.Phone.Contains(txtSearchname.Text))).ToList();
-                    
-
-                    foreach (Bookings book in bookings.Where(b => b.Date == dpSearch.SelectedDate.Value).ToList())
-
-                    {
-
-                        VwReservs item = new VwReservs
-                        {
-                            Id = book.Id,
-                            Fullname = book.Contacts.Name + " " + book.Contacts.Surname,
-                            Date = book.Date.ToString("dd.MM.yyyy"),
-                            Time = book.Time.ToString(@"hh\:mm"),
-                            Email = book.Contacts.Email,
-                            Stadion = book.Stadiums.Name,
-                            curPrice = book.Stadiums.price
-                            //curPrice = book.Stadiums.price.IsDBNull(7) ? 0M : sdr.GetDecimal(7)
-
-                        };
-                        DgBookings.Items.Add(item);
-
-                    }
-                }
+                VwReservs item = new VwReservs
+                {
+                    Id = book.Id,
+                    Fullname = book.Contacts.Name + " " + book.Contacts.Surname,
+                    Date = book.Date.ToString("dd.MM.yyyy"),
+                    Time = book.Time.ToString(@"hh\:mm"),
+                    Email = book.Contacts.Email,
+                    Stadion = book.Stadiums.Name,
+                    curPrice = book.Stadiums.price
 
 
+                };
+                DgBookings.Items.Add(item);
+
+            }
+
+        
                 
             }
 
-       
+        private void BtnUpdate_Delete_Stad_Click(object sender, RoutedEventArgs e)
+        {
+            if (CmbStadiums.SelectedItem == null)
+            {
+
+                MessageBox.Show("sehv var");
+                LblStadium.Foreground = Brushes.Red;
+                return;
+            }
+           
+            Stadiums vwReservs = CmbStadiums.SelectedItem as Stadiums;
+            Stadium updateStadium = new Stadium(this);
+            updateStadium.ShowDialog();
+            
+            LblStadium.Foreground = Brushes.White;
+            updateStadium.Title = "Yenilə və ya Sil";
+            updateStadium.LblEntry.Content = "Meydanca yenilə və ya sil";
+           
+            updateStadium.ForUpdate();
+            updateStadium.Meydanca = db.Stadiums.Find(vwReservs.Id);
+            
+            updateStadium.FillAllFields();
+         
+
+        }
     }
 
     

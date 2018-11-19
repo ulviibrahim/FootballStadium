@@ -24,6 +24,7 @@ namespace ReservationFootballStadiums
         ReservationEntities db = new ReservationEntities();
         //private object cmbContact;
         public MainWindow mw;
+        
    
         
         public ReservationEntities Db { get => db; set => db = value; }
@@ -31,16 +32,19 @@ namespace ReservationFootballStadiums
         public Contacts SelectedUser { get; private set; }
         public Contacts Contact;
         public Contacts selectedContact;
+
         public AddPerson(MainWindow main)
+           
         {
             InitializeComponent();
             //FillContacts();
-            FillFullName();
+            //FillFullName();
             this.mw = main;
-        }
-       
 
-      
+        }
+
+
+
         private void FillFullName()
         {
             foreach (Contacts contact in Db.Contacts.OrderBy(c => c.Name).ToList())
@@ -50,35 +54,16 @@ namespace ReservationFootballStadiums
                     Id = contact.Id,
                     All = contact.Name + " " + contact.Surname + " " + contact.Phone
                 };
-                CmbContact.Items.Add(fullname);
-                
-            }
-           
-        }
+              
 
-        private void CmbContact_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            BtnUpdate.Visibility = Visibility.Visible;
-            BtnDelete.Visibility = Visibility.Visible;
-            BtnAdd.Visibility = Visibility.Hidden;
-
-           
-            Fullname fullname = CmbContact.SelectedItem as Fullname;
-            Contacts contact = db.Contacts.Find(fullname.Id);
-            if (contact != null)
-            {
-                TxtName.Text = contact.Name;
-                TxtSurname.Text = contact.Surname;
-                TxtPhone.Text = contact.Phone;
-                TxtEmail.Text = contact.Email;
-
-           
-                
             }
 
-          
         }
+
+        
+
+
+        
         //Reset metodu
         public void Reset()
         {
@@ -91,7 +76,56 @@ namespace ReservationFootballStadiums
             TxtPhone.Text = "";
             TxtEmail.Text = "";
         }
+        //Update metodu
         private void update()
+        {
+
+            
+           
+
+        }
+
+        //Add buttonunua click eventi
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+          if (string.IsNullOrEmpty(TxtName.Text) || string.IsNullOrEmpty(TxtSurname.Text) || string.IsNullOrEmpty(TxtPhone.Text) || string.IsNullOrEmpty(TxtEmail.Text))
+            {
+                MessageBox.Show("xanalari doldur");
+
+                return;
+
+            }
+          
+
+            
+
+            Contacts C = new Contacts();
+            C.Name = TxtName.Text;
+            C.Surname = TxtSurname.Text;
+            C.Phone = TxtPhone.Text;
+            C.Email = TxtEmail.Text;
+           
+            db.Contacts.Add(C);
+
+            db.SaveChanges();
+            FillFullName();
+            mw.FillContacts();
+          
+            Reset();
+            this.Close();
+
+
+        }
+       
+       public void ForUpdate()
+        {
+            BtnUpdate.Visibility = Visibility.Visible;
+            BtnDelete.Visibility = Visibility.Visible;
+            BtnAdd.Visibility = Visibility.Hidden;
+        }
+        // Btn Update metodu
+        private void BtnUpdate_Click_1(object sender, RoutedEventArgs e)
         {
 
             if (string.IsNullOrEmpty(TxtName.Text) && string.IsNullOrEmpty(TxtSurname.Text) && string.IsNullOrEmpty(TxtPhone.Text) && string.IsNullOrEmpty(TxtEmail.Text))
@@ -101,43 +135,34 @@ namespace ReservationFootballStadiums
                 return;
 
             }
-            CmbContact.Items.Clear();
-            Contacts contact = new Contacts
-            {
-
-                Name = TxtName.Text,
-                Surname = TxtSurname.Text,
-                Phone = TxtPhone.Text,
-                Email = TxtEmail.Text
-            };
-            db.Contacts.Add(contact);
-        }
-
-        //Add buttonunua click eventi
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
-        {
-
-            update();
 
 
 
+            //  Contacts c = CmbContact.SelectedItem as Contacts;
+            Contacts C = db.Contacts.Find(Contact.Id);
+            C.Name = TxtName.Text;
+            C.Surname = TxtSurname.Text;
+            C.Phone = TxtPhone.Text;
+            C.Email = TxtEmail.Text;
 
-              
             db.SaveChanges();
             FillFullName();
+            db.SaveChanges();
+            MessageBox.Show("Şəxs yeniləndi");
             mw.FillContacts();
-            mw.TriggerAddbtn();
-            Reset();
+
             this.Close();
 
 
-        }
 
+
+
+
+
+        }
         public void FillAllFields()
         {
-            
 
-            //CmbContact.SelectedValuePath = Contact.Id.ToString();
             TxtName.Text = Contact.Name;
             TxtSurname.Text = Contact.Surname;
             TxtPhone.Text = Contact.Phone;
@@ -145,21 +170,23 @@ namespace ReservationFootballStadiums
                 ;
 
         }
-        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+
+
+        //Btn Delete metodu
+
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-
-           
-        }
-
-        private void BtnUpdate_Click_1(object sender, RoutedEventArgs e)
-        {
-
           
-            db.Contacts.Add(selectedContact);
+             
+            Contacts con = db.Contacts.FirstOrDefault(x => x.Id == Contact.Id); 
+            db.Contacts.Remove(con);
+          
             db.SaveChanges();
+            MessageBox.Show("Şəxs silindi");
             mw.FillContacts();
-
-            Reset();
+            FillFullName();
+            this.Close();
         }
     }
 }

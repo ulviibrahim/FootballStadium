@@ -17,13 +17,15 @@
         <Label x:Name="LblEntry" Content="Meydança əlavə edin" HorizontalAlignment="Left" Margin="49,39,0,0" VerticalAlignment="Top" Width="227" Foreground="White" FontSize="20" FontWeight="Bold"/>
         <Label x:Name="lblAddStadium" Content="Meydança*" HorizontalAlignment="Left" Margin="49,152,0,0" VerticalAlignment="Top" Width="124" Foreground="White" FontSize="14" FontWeight="Bold"/>
         <TextBox x:Name="TxtStadium" HorizontalAlignment="Left" Height="23" Margin="49,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157"/>
-        <Button x:Name="BtnAdd" Content="Əlavə et" HorizontalAlignment="Left" Margin="29,256,0,0" VerticalAlignment="Top" Width="120" Height="32" Foreground="White" Background="#FF3F95DC" FontSize="16" Click="BtnAdd_Click"/>
+        <Button x:Name="BtnAdd" Content="Əlavə et" HorizontalAlignment="Left" Margin="26,256,0,0" VerticalAlignment="Top" Width="120" Height="32" Foreground="White" Background="#FF3F95DC" FontSize="16" Click="BtnAdd_Click"/>
         <ComboBox x:Name="CmbStadiums" HorizontalAlignment="Left" Margin="49,104,0,0" VerticalAlignment="Top" Width="157"
               ItemsSource="{Binding Path=Stadiums}"
                   DisplayMemberPath="Name"
                   SelectedValuePath="Id"
                   SelectedValue="{Binding Path=Stadiums}"
                 />
+        <Button x:Name="BtnUpdate" Content="Yenilə" HorizontalAlignment="Left" Margin="26,293,0,0" VerticalAlignment="Top" Width="120" Height="32" Foreground="White" Background="#FF3F95DC" FontSize="16" Click="BtnUpdate_Click"/>
+        <Button x:Name="BtnDelete" Content="Sil" HorizontalAlignment="Left" Margin="156,256,0,0" VerticalAlignment="Top" Width="120" Height="32" Foreground="White" Background="#FF3F95DC" FontSize="16" Click="BtnDelete_Click"/>
 
 
     </Grid>

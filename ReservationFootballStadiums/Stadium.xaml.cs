@@ -20,16 +20,21 @@ namespace ReservationFootballStadiums
     /// </summary>
     public partial class Stadium : Window
     {
-        ReservationEntities db = new ReservationEntities();
         MainWindow Sta;
+        ReservationEntities db = new ReservationEntities();
+       
+
+
+        public Stadiums Meydanca;
         public Stadium(MainWindow main)
 
         {
            
             InitializeComponent();
+            this.Sta = main;
             Fillstadiums();
          
-           this.Sta = main;
+           
         }
         private void Fillstadiums()
         {
@@ -59,8 +64,12 @@ namespace ReservationFootballStadiums
             }
 
         }
-
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        public void FillAllFields()
+        {
+            CmbStadiums.SelectedValuePath = Meydanca.Id.ToString();
+            TxtStadium.Text = Meydanca.Name;
+        }
+            private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(TxtStadium.Text))
                 
@@ -83,12 +92,49 @@ namespace ReservationFootballStadiums
             Close();
         
     }
+        public void ForUpdate()
+        {
+            BtnUpdate.Visibility = Visibility.Visible;
+            BtnDelete.Visibility = Visibility.Visible;
+            BtnAdd.Visibility = Visibility.Hidden;
+        }
+        //  Stadion yenilemek
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(TxtStadium.Text))
+            {
+                MessageBox.Show("xanalari doldur");
+
+                return;
+
+            }
 
 
-        //Stadiums stadium = Cm.SelectedItem as Stadiums;
-        //Contacts contact = db.Contacts.Find(fullname.Id);
-        //    if (contact != null)
-        //    {
-        //        TxtName.Text = contact.Name;
+
+          
+            Stadiums C = db.Stadiums.Find(Meydanca.Id);
+            C.Name = TxtStadium.Text;
+            
+            
+            db.SaveChanges();
+            MessageBox.Show("Meydanca yeniləndi");
+            Fillstadiums();
+            Sta.fillStadiums();
+
+            this.Close();
+        }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+            Stadiums con = db.Stadiums.FirstOrDefault(x => x.Id == Meydanca.Id);
+            db.Stadiums.Remove(con);
+
+            db.SaveChanges();
+            MessageBox.Show("Şəxs silindi");
+            Sta.fillStadiums();
+            Fillstadiums();
+            this.Close();
+        }
     }
 }
