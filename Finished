@@ -1,0 +1,251 @@
+Yekun:
+Veriilmiş tapşırığı tam yerine yetirə bilmədim. 
+Proyektə daxil edə bildiklərim:
+Booking etmək kalendarın gününı uyöun olaraq stadionların görünməsi. Əgər oyun rezerv edilmişsə stadion görünmür.
+Filter: Günə, Stadiona və istifadəçilərin adları və telefon nömrələrinə görə axtarış
+axtarışın nəticasini Date pickerə add olunması;
+Şəxslərin Grudu;
+Çox təəssüfki Meydança Grudunu tam bitirə bilmədim.
+
+Script filesin əlavə etdim, ehtiyyat üçün.
+
+
+
+
+/*    ==Scripting Parameters==
+
+    Source Server Version : SQL Server 2016 (13.0.4001)
+    Source Database Engine Edition : Microsoft SQL Server Express Edition
+    Source Database Engine Type : Standalone SQL Server
+
+    Target Server Version : SQL Server 2017
+    Target Database Engine Edition : Microsoft SQL Server Standard Edition
+    Target Database Engine Type : Standalone SQL Server
+*/
+
+/****** Object:  Database [ReservationOfFootballStadiums]    Script Date: 19.11.2018 11:32:43 ******/
+CREATE DATABASE [ReservationOfFootballStadiums]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'ReservationOfFootballStadiums', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS\MSSQL\DATA\ReservationOfFootballStadiums.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'ReservationOfFootballStadiums_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL13.SQLEXPRESS\MSSQL\DATA\ReservationOfFootballStadiums_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET COMPATIBILITY_LEVEL = 130
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [ReservationOfFootballStadiums].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET  MULTI_USER 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET QUERY_STORE = OFF
+GO
+USE [ReservationOfFootballStadiums]
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = PRIMARY;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = PRIMARY;
+GO
+ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
+GO
+ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = PRIMARY;
+GO
+USE [ReservationOfFootballStadiums]
+GO
+/****** Object:  Table [dbo].[Bookings]    Script Date: 19.11.2018 11:32:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Bookings](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[StadiumId] [int] NOT NULL,
+	[ContactId] [int] NOT NULL,
+	[Date] [date] NOT NULL,
+	[Time] [time](7) NOT NULL,
+	[CreatedAt] [datetime] NULL,
+	[AdditionalServices] [decimal](4, 2) NOT NULL,
+	[TotalPrice] [decimal](4, 2) NOT NULL,
+ CONSTRAINT [PK_Bookings] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Contacts]    Script Date: 19.11.2018 11:32:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Contacts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[Surname] [nvarchar](50) NOT NULL,
+	[Phone] [nvarchar](50) NOT NULL,
+	[Email] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Contacts] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Rooms]    Script Date: 19.11.2018 11:32:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Rooms](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[MenCount] [int] NOT NULL,
+ CONSTRAINT [PK_Rooms] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Stadiums]    Script Date: 19.11.2018 11:32:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Stadiums](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[RoomId] [int] NULL,
+	[Name] [nvarchar](50) NOT NULL,
+	[price] [decimal](4, 2) NOT NULL,
+ CONSTRAINT [PK_Stadiums] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Bookings] ON 
+
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (50, 5, 27, CAST(N'2018-11-30' AS Date), CAST(N'13:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (51, 3, 2, CAST(N'2018-11-30' AS Date), CAST(N'13:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (52, 2, 26, CAST(N'2018-11-30' AS Date), CAST(N'13:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (53, 7, 28, CAST(N'2018-11-30' AS Date), CAST(N'13:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (54, 5, 1, CAST(N'2018-11-28' AS Date), CAST(N'23:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (55, 3, 26, CAST(N'2018-11-30' AS Date), CAST(N'12:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (56, 4, 1, CAST(N'2018-11-18' AS Date), CAST(N'17:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (57, 5, 28, CAST(N'2018-11-18' AS Date), CAST(N'17:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (58, 2, 27, CAST(N'2018-11-25' AS Date), CAST(N'12:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (59, 3, 27, CAST(N'2018-11-24' AS Date), CAST(N'13:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Bookings] ([Id], [StadiumId], [ContactId], [Date], [Time], [CreatedAt], [AdditionalServices], [TotalPrice]) VALUES (60, 3, 2, CAST(N'2018-11-22' AS Date), CAST(N'13:00:00' AS Time), NULL, CAST(0.00 AS Decimal(4, 2)), CAST(0.00 AS Decimal(4, 2)))
+SET IDENTITY_INSERT [dbo].[Bookings] OFF
+SET IDENTITY_INSERT [dbo].[Contacts] ON 
+
+INSERT [dbo].[Contacts] ([Id], [Name], [Surname], [Phone], [Email]) VALUES (1, N'Ulvi', N'Ibrahimov', N'0519980797', N'ulviia@code.edu.az')
+INSERT [dbo].[Contacts] ([Id], [Name], [Surname], [Phone], [Email]) VALUES (2, N'Kamran', N'Mirzeyev', N'0552669845dgdg', N'kamranme@code.edu.az')
+INSERT [dbo].[Contacts] ([Id], [Name], [Surname], [Phone], [Email]) VALUES (26, N'Memmed', N'Memmedov', N'05198', N'memmed@edu.gov.az')
+INSERT [dbo].[Contacts] ([Id], [Name], [Surname], [Phone], [Email]) VALUES (27, N'Elnur', N'Ramazanzade', N'055459636', N'elnurer@gmail.com')
+INSERT [dbo].[Contacts] ([Id], [Name], [Surname], [Phone], [Email]) VALUES (28, N'Ruslan', N'Berqizyar', N'012321654', N'ruslan.ber@code.edu.az')
+INSERT [dbo].[Contacts] ([Id], [Name], [Surname], [Phone], [Email]) VALUES (36, N'Vüsal 444', N'Şahbazlı', N'0517520991', N'vusal.shahbazli@gmail.com')
+SET IDENTITY_INSERT [dbo].[Contacts] OFF
+SET IDENTITY_INSERT [dbo].[Rooms] ON 
+
+INSERT [dbo].[Rooms] ([Id], [Name], [MenCount]) VALUES (1, N'Bath A', 10)
+INSERT [dbo].[Rooms] ([Id], [Name], [MenCount]) VALUES (2, N'Bath B', 11)
+INSERT [dbo].[Rooms] ([Id], [Name], [MenCount]) VALUES (4, N'Bath C', 12)
+SET IDENTITY_INSERT [dbo].[Rooms] OFF
+SET IDENTITY_INSERT [dbo].[Stadiums] ON 
+
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (2, NULL, N'Novxani', CAST(30.00 AS Decimal(4, 2)))
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (3, NULL, N'Baki', CAST(30.00 AS Decimal(4, 2)))
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (4, NULL, N'Sumqayit', CAST(30.00 AS Decimal(4, 2)))
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (5, NULL, N'Azal', CAST(30.00 AS Decimal(4, 2)))
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (6, NULL, N'Suraxanı', CAST(30.00 AS Decimal(4, 2)))
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (7, NULL, N'Turan', CAST(30.00 AS Decimal(4, 2)))
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (8, NULL, N'sdfghjhgfd', CAST(0.00 AS Decimal(4, 2)))
+INSERT [dbo].[Stadiums] ([Id], [RoomId], [Name], [price]) VALUES (9, NULL, N'sdffs', CAST(0.00 AS Decimal(4, 2)))
+SET IDENTITY_INSERT [dbo].[Stadiums] OFF
+ALTER TABLE [dbo].[Bookings] ADD  CONSTRAINT [DF_Bookings_CreatedAt]  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[Stadiums] ADD  CONSTRAINT [DF_Stadiums_price]  DEFAULT ((30)) FOR [price]
+GO
+ALTER TABLE [dbo].[Bookings]  WITH CHECK ADD  CONSTRAINT [FK_Bookings_Contacts] FOREIGN KEY([ContactId])
+REFERENCES [dbo].[Contacts] ([Id])
+GO
+ALTER TABLE [dbo].[Bookings] CHECK CONSTRAINT [FK_Bookings_Contacts]
+GO
+ALTER TABLE [dbo].[Bookings]  WITH CHECK ADD  CONSTRAINT [FK_Bookings_Stadiums] FOREIGN KEY([StadiumId])
+REFERENCES [dbo].[Stadiums] ([Id])
+GO
+ALTER TABLE [dbo].[Bookings] CHECK CONSTRAINT [FK_Bookings_Stadiums]
+GO
+ALTER TABLE [dbo].[Stadiums]  WITH CHECK ADD  CONSTRAINT [FK_Stadiums_Rooms] FOREIGN KEY([RoomId])
+REFERENCES [dbo].[Rooms] ([Id])
+GO
+ALTER TABLE [dbo].[Stadiums] CHECK CONSTRAINT [FK_Stadiums_Rooms]
+GO
+USE [master]
+GO
+ALTER DATABASE [ReservationOfFootballStadiums] SET  READ_WRITE 
+GO
